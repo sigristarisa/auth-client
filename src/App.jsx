@@ -5,8 +5,9 @@ import Input from "./components/Input";
 
 export default function App() {
   const [user, setUser] = useState({ username: "", password: "" });
+  const [loginUser, setLoginUser] = useState({ username: "", password: "" });
   const [registerResponse, setRegisterResponse] = useState("");
-  //   const [loginResponse, setLoginResponse] = useState("");
+  const [loginResponse, setLoginResponse] = useState("");
 
   const register = async (e) => {
     e.preventDefault();
@@ -18,7 +19,6 @@ export default function App() {
     fetch(`http://localhost:4000/register`, opts)
       .then((res) => res.json())
       .then((userData) => {
-        console.log("userData: ", userData);
         setRegisterResponse(
           `Thank you for registering, ${userData.data.username}!`
         );
@@ -33,11 +33,20 @@ export default function App() {
   // You can safely ignore everything below this line, it's just boilerplate
   // so you can focus on the exercise requirements
 
-  const handleChange = (e) => {
+  const handleRegisterChange = (e) => {
     const { value, name } = e.target;
 
     setUser({
       ...user,
+      [name]: value,
+    });
+  };
+
+  const handleLoginChange = (e) => {
+    const { value, name } = e.target;
+
+    setLoginUser({
+      ...loginUser,
       [name]: value,
     });
   };
@@ -55,7 +64,7 @@ export default function App() {
             name="username"
             placeholder="Username"
             value={user.username}
-            handleChange={handleChange}
+            handleChange={handleRegisterChange}
           />,
           <Input
             key={2}
@@ -63,14 +72,14 @@ export default function App() {
             name="password"
             placeholder="Password"
             value={user.password}
-            handleChange={handleChange}
+            handleChange={handleRegisterChange}
           />,
         ]}
       />
 
       {registerResponse && <p>{registerResponse}</p>}
 
-      {/* <h1>Login</h1>
+      <h1>Login</h1>
 
       <Form
         handleSubmit={login}
@@ -80,21 +89,21 @@ export default function App() {
             type="text"
             name="username"
             placeholder="Username"
-            value={user.username}
-            handleChange={handleChange}
+            value={loginUser.username}
+            handleChange={handleLoginChange}
           />,
           <Input
             key={2}
             type="password"
             name="password"
             placeholder="Password"
-            value={user.password}
-            handleChange={handleChange}
+            value={loginUser.password}
+            handleChange={handleLoginChange}
           />,
         ]}
       />
 
-      {loginResponse && <p>{loginResponse}</p>} */}
+      {loginResponse && <p>{loginResponse}</p>}
     </div>
   );
 }
