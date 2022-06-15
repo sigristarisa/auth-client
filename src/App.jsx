@@ -27,7 +27,18 @@ export default function App() {
 
   const login = async (e) => {
     e.preventDefault();
-    // Write your login code here
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginUser),
+    };
+    fetch(`http://localhost:4000/login`, opts)
+      .then((res) => res.json())
+      .then((loginUserData) => {
+        setLoginResponse(
+          `Hi, ${loginUser.username}, your token is ${loginUserData.data}`
+        );
+      });
   };
 
   // You can safely ignore everything below this line, it's just boilerplate
